@@ -9,6 +9,7 @@ void indexOf(void);
 void printOptions(void);
 void menu(void);
 
+// Init function.
 int main()
 {
     top=-1;
@@ -16,6 +17,7 @@ int main()
     return 0;    
 }
 
+// Method for handle menu options by user selection.
 void menu()
 {
     printf("\n================================================");
@@ -61,6 +63,7 @@ void menu()
     } while (option!=5);
 }
 
+// Method that implement push functionallity for insert an element in array.
 void push()
 {
     if(top>=n-1)
@@ -76,7 +79,7 @@ void push()
     }
 }
 
-//
+// Method that implement pop functionallity for remove the last element in array.
 void pop()
 {
     if(top<=-1)
@@ -89,6 +92,8 @@ void pop()
         top--;
     }
 }
+
+// Method that implement indexOf functionallity for search the value of an element in the array by index.
 void indexOf()
 {
     if(top<=-1)
@@ -110,6 +115,8 @@ void indexOf()
         }
     }        
 }
+
+// Method for display the array elements in screen.
 void print()
 {
     if(top>=0)
@@ -126,6 +133,8 @@ void print()
     }
     
 }
+
+// Method that print the header of menu options.
 void printOptions()
 {
     printf("\n\n\t OPERATIONS USING ARRAY[%d/%d]", top+1, n);
