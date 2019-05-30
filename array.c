@@ -1,12 +1,16 @@
 #include <stdio.h>
+#define SIZE 1000
 
-int arr[1000], option, n, top, valueToInsert, indexToFind, i;
+int arr[SIZE], option, n, top, value_to_insert, index_to_find, i;
 
+// Functions prototypes
 void push(void);
 void pop(void);
 void print(void);
-void indexOf(void);
-void printOptions(void);
+void find_by_index(void);
+void find_by_value(void);
+void print_options(void);
+void sort(void);
 void menu(void);
 
 // Init function.
@@ -24,9 +28,15 @@ void menu()
     printf("\n::Enter size of array> ");
     scanf("%d",  &n);
 
+    if (n>1000)
+    {
+        printf("<Error>");        
+    }
+    
+
     do
     {
-        printOptions();
+        print_options();
         printf("\n::Enter the option> ");
         scanf("%d", &option);
         switch (option)
@@ -48,10 +58,20 @@ void menu()
         }
         case 4:
         {
-            indexOf();
+            find_by_index();
             break;
         }
         case 5:
+        {
+            find_by_value();
+            break;
+        }
+        case 6:
+        {
+            sort();
+            break;
+        }
+        case 7:
         {
             printf("\n<EXIT>\n\n");
             break;
@@ -60,7 +80,7 @@ void menu()
             printf("\n\t<Invalid option selected>");
             break;
         }
-    } while (option!=5);
+    } while (option!=7);
 }
 
 // Method that implement push functionallity for insert an element in array.
@@ -73,9 +93,9 @@ void push()
     else
     {
         printf("\n  ::Enter a value to be pushed for the position[%d]> ", top+1);
-        scanf("%d",&valueToInsert);
+        scanf("%d",&value_to_insert);
         top++;
-        arr[top]=valueToInsert;
+        arr[top]=value_to_insert;
     }
 }
 
@@ -93,8 +113,8 @@ void pop()
     }
 }
 
-// Method that implement indexOf functionallity for search the value of an element in the array by index.
-void indexOf()
+// Method that find one element of array by index.
+void find_by_index()
 {
     if(top<=-1)
     {
@@ -103,16 +123,60 @@ void indexOf()
     else
     {
         printf("\n\t  ::Enter a index to find> ");
-        scanf("%d",&indexToFind);
-        if(indexToFind>-1 && indexToFind < n)
+        scanf("%d",&index_to_find);
+        if(index_to_find>-1 && index_to_find < n)
         {        
-            (indexToFind<=top) ? printf("\n\t<The value in the position %d is: %d>", indexToFind, arr[indexToFind]) : printf("\n\t<The value in the position %d is: empty>", indexToFind);
-            indexToFind=0;        
+            (index_to_find<=top) ? printf("\n\t<The value in the position %d is: %d>", index_to_find, arr[index_to_find]) : printf("\n\t<The value in the position %d is: empty>", index_to_find);
+            index_to_find=0;        
         }
         else
         {
-            printf("\n\t<Index %d is out of array range>", indexToFind);         
+            printf("\n\t<Index %d is out of array range>", index_to_find);         
         }
+    }        
+}
+
+// Method that find elements of array by value.
+void find_by_value()
+{
+    int elements[10];
+    int indexes[10];
+    int k = 0;
+    int value_to_find, j;    
+    
+    if(top<=-1)
+    {
+        printf("\n<Array is empty>");
+    }
+    else
+    {
+        printf("\n\t  ::Enter the value to find> ", n);
+        scanf("%d",&value_to_find);
+        for(j=0; j<n; j++)
+        {
+            if(arr[j]==value_to_find)
+            {
+                elements[k]=arr[j];
+                indexes[k]=j;
+                printf("%d -- %d\n", j, arr[j]);
+                k++;
+            }
+        }
+
+        if(k>0)
+        {
+            printf("::Element(s) founded:%d\n", k);
+            printf("::-------------------\n");
+            for(j=0; j<k; j++)
+            {
+                printf("\n\tarray[%d]=%d", indexes[j], elements[j]);
+            }
+        }
+        else
+        {
+            printf("\n<No elements founded by the value: %d>", value_to_find);   
+        }      
+
     }        
 }
 
@@ -134,11 +198,30 @@ void print()
     
 }
 
+// Method that implements bubble sort algorithm.
+void sort()
+{
+    int i, j, hold;
+
+    for(i = 1; i <= n; i++)
+    {
+        for(j=0; j<= n-2; j++)
+        {
+            if(arr[j] > arr[j+1])
+            {
+                hold = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1]=hold;
+            }
+        }
+    }
+    printf("<Array sorted>");    
+}
+
 // Method that print the header of menu options.
-void printOptions()
+void print_options()
 {
     printf("\n\n\t OPERATIONS USING ARRAY[%d/%d]", top+1, n);
     printf("\n\t--------------------------------");
-    printf("\n\t 1.PUSH\n\t 2.POP\n\t 3.DISPLAY\n\t 4.INDEXOF\n\t 5.EXIT \n\t");
+    printf("\n\t 1.PUSH\n\t 2.POP\n\t 3.DISPLAY\n\t 4.FIND BY INDEX\n\t 5.FIND BY VALUE\n\t 6.SORT\n\t 7.EXIT \n\t");
 }
-
