@@ -33,7 +33,6 @@ void menu()
         printf("<Error>");        
     }
     
-
     do
     {
         print_options();
