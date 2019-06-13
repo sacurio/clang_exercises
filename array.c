@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "include/utilui.h"
+
 #define SIZE 1000
 
 int arr[SIZE], option, n, top, value_to_insert, index_to_find, i;
@@ -18,21 +22,25 @@ int main()
 {
     top=-1;
     render_menu();
-    return 0;    
+    return 0;
 }
 
 // Method for handle menu options by user selection.
 void render_menu()
 {
+    clear_screen();
+    print_info();
     printf("\n================================================");
     printf("\n::Enter size of array> ");
     scanf("%d",  &n);
-
+    printf("================================================");
+    reset_color();
     if (n>1000)
     {
-        printf("<Error>");        
+
+        printf("<Error>");
     }
-    
+
     do
     {
         print_options();
@@ -42,41 +50,53 @@ void render_menu()
         {
         case 1:
         {
+            clear_screen();
             push();
             break;
         }
         case 2:
         {
+            clear_screen();
             pop();
             break;
         }
         case 3:
         {
+            clear_screen();
             print();
             break;
         }
         case 4:
         {
+            clear_screen();
             find_by_index();
             break;
         }
         case 5:
         {
+            clear_screen();
             find_by_value();
             break;
         }
         case 6:
         {
+            clear_screen();
             sort();
             break;
         }
         case 7:
         {
+            clear_screen();
+            print_danger();
             printf("\n<EXIT>\n\n");
+            print_default();
             break;
         }
         default:
-            printf("\n\t<Invalid option selected>");
+            clear_screen();
+            print_danger();
+            printf("\n<Invalid option selected>");
+            print_default();
             break;
         }
     } while (option!=7);
@@ -87,12 +107,16 @@ void push()
 {
     if(top>=n-1)
     {
-        printf("\n\t<Array is over flow>");         
+        print_danger();
+        printf("\n<Array is over flow>");
+        print_default();
     }
     else
     {
-        printf("\n  ::Enter a value to be pushed for the position[%d]> ", top+1);
+        print_info();
+        printf("\n::Enter a value to be pushed for the position[%d]> ", top+1);
         scanf("%d",&value_to_insert);
+        print_default();
         top++;
         arr[top]=value_to_insert;
     }
@@ -103,11 +127,15 @@ void pop()
 {
     if(top<=-1)
     {
+        print_warning();
         printf("\n<Array is empty>");
+        print_default();
     }
     else
     {
+        print_success();
         printf("\n<The popped elements is %d>",arr[top]);
+        print_default();
         top--;
     }
 }
@@ -117,22 +145,32 @@ void find_by_index()
 {
     if(top<=-1)
     {
+        print_danger();
         printf("\n<Array is empty>");
+        print_default();
     }
     else
     {
-        printf("\n\t  ::Enter a index to find> ");
+        print_info();
+        printf("\n::Enter a index to find> ");
         scanf("%d",&index_to_find);
+        print_default();
         if(index_to_find>-1 && index_to_find < n)
-        {        
-            (index_to_find<=top) ? printf("\n\t<The value in the position %d is: %d>", index_to_find, arr[index_to_find]) : printf("\n\t<The value in the position %d is: empty>", index_to_find);
-            index_to_find=0;        
+        {
+            print_success();
+            (index_to_find<=top) ? printf("\n<The value in the position %d is: %d >\n", index_to_find, arr[index_to_find]) : printf("\n\t<The value in the position %d is: empty >", index_to_find);
+            pause();
+            clear_screen();
+            print_default();
+            index_to_find=0;
         }
         else
         {
-            printf("\n\t<Index %d is out of array range>", index_to_find);         
+            print_danger();
+            printf("\n<Index %d is out of array range>", index_to_find);
+            print_default();
         }
-    }        
+    }
 }
 
 // Method that find elements of array by value.
@@ -141,42 +179,51 @@ void find_by_value()
     int elements[10];
     int indexes[10];
     int k = 0;
-    int value_to_find, j;    
-    
+    int value_to_find, j;
+
     if(top<=-1)
     {
+        print_warning();
         printf("\n<Array is empty>");
+        print_default();
     }
     else
     {
-        printf("\n\t  ::Enter the value to find> ");
+        print_info();
+        printf("\n::Enter the value to find> ");
         scanf("%d",&value_to_find);
+        print_default();
         for(j=0; j<n; j++)
         {
             if(arr[j]==value_to_find)
             {
                 elements[k]=arr[j];
                 indexes[k]=j;
-                printf("%d -- %d\n", j, arr[j]);
                 k++;
             }
         }
 
         if(k>0)
         {
-            printf("::Element(s) founded:%d\n", k);
-            printf("::-------------------\n");
+            print_success();
+            printf("\n::Element(s) founded:%d\n", k);
+            printf("---------------------\n");
             for(j=0; j<k; j++)
             {
-                printf("\n\tarray[%d]=%d", indexes[j], elements[j]);
+                printf("\n\tarray[%d]=%d\n", indexes[j], elements[j]);
             }
+            pause();
+            clear_screen();
+            print_default();
         }
         else
         {
-            printf("\n<No elements founded by the value: %d>", value_to_find);   
-        }      
+            print_warning();
+            printf("\n<No elements founded by the value: %d>", value_to_find);
+            print_default();
+        }
 
-    }        
+    }
 }
 
 // Method for display the array elements in screen.
@@ -184,17 +231,22 @@ void print()
 {
     if(top>=0)
     {
+        print_success();
         printf("\nThe elements in array\n");
         printf("\n---------------------\n");
         for(i=n-1; i>=0; i--)
-            (top+1 > i) ? printf("\n\tarray[%d]=%d\n",i, arr[i]) : printf("\n\tarray[%d]=%s\n",i, "<empty>");           
-        printf("\n\n::Enter the option> ");
+            (top+1 > i) ? printf("\n\tarray[%d]=%d\n",i, arr[i]) : printf("\n\tarray[%d]=%s\n",i, "<empty>");
+        print_default();
+        pause();
+        clear_screen();
     }
     else
     {
-        printf("\n <Array is empty>");
+        print_warning();
+        printf("\n<Array is empty>");
+        print_default();
     }
-    
+
 }
 
 // Method that implements bubble sort algorithm.
@@ -214,7 +266,10 @@ void sort()
             }
         }
     }
-    printf("<Array sorted>");    
+    print_success();
+    printf("<Array sorted>\n");
+    print();
+    print_default();
 }
 
 // Method that print the header of menu options.
