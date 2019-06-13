@@ -149,7 +149,7 @@ void find_by_value()
     }
     else
     {
-        printf("\n\t  ::Enter the value to find> ", n);
+        printf("\n\t  ::Enter the value to find> ");
         scanf("%d",&value_to_find);
         for(j=0; j<n; j++)
         {
