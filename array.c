@@ -11,18 +11,18 @@ void find_by_index(void);
 void find_by_value(void);
 void print_options(void);
 void sort(void);
-void menu(void);
+void render_menu(void);
 
 // Init function.
 int main()
 {
     top=-1;
-    menu();
+    render_menu();
     return 0;    
 }
 
 // Method for handle menu options by user selection.
-void menu()
+void render_menu()
 {
     printf("\n================================================");
     printf("\n::Enter size of array> ");
