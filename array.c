@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <ctype.h>
 
 #include "include/utilui.h"
 
@@ -28,78 +30,91 @@ int main()
 // Method for handle menu options by user selection.
 void render_menu()
 {
+    int number_valid = 0;
+    char number_str[10];
     clear_screen();
-    print_info();
-    printf("\n================================================");
-    printf("\n::Enter size of array> ");
-    scanf("%d",  &n);
-    printf("================================================");
-    reset_color();
-    if (n>1000)
-    {
-
-        printf("<Error>");
-    }
-
-    do
-    {
-        print_options();
-        printf("\n::Enter the option> ");
-        scanf("%d", &option);
-        switch (option)
+    do{
+        print_info();
+        printf("\n================================================");
+        printf("\n::Enter size of array> ");
+        scanf("%d", &n);
+        printf("================================================");
+        reset_color();
+        sscanf(number_str, "%s", &n)
+        number_valid = is_number(number_str);
+        printf("%d %d", number_valid, n);
+        if(number_valid==1)
         {
-        case 1:
-        {
-            clear_screen();
-            push();
-            break;
-        }
-        case 2:
-        {
-            clear_screen();
-            pop();
-            break;
-        }
-        case 3:
-        {
-            clear_screen();
-            print();
-            break;
-        }
-        case 4:
-        {
-            clear_screen();
-            find_by_index();
-            break;
-        }
-        case 5:
-        {
-            clear_screen();
-            find_by_value();
-            break;
-        }
-        case 6:
-        {
-            clear_screen();
-            sort();
-            break;
-        }
-        case 7:
-        {
-            clear_screen();
+            if (n>1000)
+            {
+                printf("<Error>");
+            }
+            do
+            {
+                print_options();
+                printf("\n::Enter the option> ");
+                scanf("%d", &option);
+                switch (option)
+                {
+                case 1:
+                {
+                    clear_screen();
+                    push();
+                    break;
+                }
+                case 2:
+                {
+                    clear_screen();
+                    pop();
+                    break;
+                }
+                case 3:
+                {
+                    clear_screen();
+                    print();
+                    break;
+                }
+                case 4:
+                {
+                    clear_screen();
+                    find_by_index();
+                    break;
+                }
+                case 5:
+                {
+                    clear_screen();
+                    find_by_value();
+                    break;
+                }
+                case 6:
+                {
+                    clear_screen();
+                    sort();
+                    break;
+                }
+                case 7:
+                {
+                    clear_screen();
+                    print_danger();
+                    printf("\n<EXIT>\n\n");
+                    print_default();
+                    break;
+                }
+                default:
+                    clear_screen();
+                    print_danger();
+                    printf("\n<Invalid option selected>");
+                    print_default();
+                    break;
+                }
+            } while (option!=7);
+        }else{
             print_danger();
-            printf("\n<EXIT>\n\n");
+            printf("\n<The value entered is not a valid int number.>\n");
             print_default();
-            break;
+            number_valid = 0;
         }
-        default:
-            clear_screen();
-            print_danger();
-            printf("\n<Invalid option selected>");
-            print_default();
-            break;
-        }
-    } while (option!=7);
+    }while(number_valid==0);
 }
 
 // Method that implement push functionallity for insert an element in array.
