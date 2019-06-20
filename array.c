@@ -40,7 +40,7 @@ void render_menu()
         scanf("%d", &n);
         printf("================================================");
         reset_color();
-        sscanf(number_str, "%s", &n)
+        sscanf(number_str, "%s", &n);
         number_valid = is_number(number_str);
         printf("%d %d", number_valid, n);
         if(number_valid==1)
