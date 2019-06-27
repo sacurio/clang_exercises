@@ -7,22 +7,21 @@
 
 #define SIZE 1000
 
-int arr[SIZE], option, n, top, value_to_insert, index_to_find, i;
+int arr[SIZE], top, i;
 
 // Functions prototypes
-void push(void);
+void push(int *top, int *n);
 void pop(void);
-void print(void);
-void find_by_index(void);
-void find_by_value(void);
-void print_options(void);
-void sort(void);
+void print(int *n);
+void find_by_index(int *n);
+void find_by_value(int *n);
+void print_options(int *n);
+void sort(int *n);
 void render_menu(void);
 
 // Init function.
 int main()
 {
-    top=-1;
     render_menu();
     return 0;
 }
@@ -30,6 +29,9 @@ int main()
 // Method for handle menu options by user selection.
 void render_menu()
 {
+    int option; 
+    int *top, *n;
+    top=-1;
     int number_valid = 0;
     char number_str[10];
     clear_screen();
@@ -42,16 +44,16 @@ void render_menu()
         reset_color();
         sscanf(number_str, "%s", &n);
         number_valid = is_number(number_str);
-        printf("%d %d", number_valid, n);
+        printf("%d %d", number_valid, *n);
         if(number_valid==1)
         {
-            if (n>1000)
+            if (n>SIZE)
             {
                 printf("<Error>");
             }
             do
             {
-                print_options();
+                print_options(n);
                 printf("\n::Enter the option> ");
                 scanf("%d", &option);
                 switch (option)
@@ -59,7 +61,7 @@ void render_menu()
                 case 1:
                 {
                     clear_screen();
-                    push();
+                    push(&top, &n);
                     break;
                 }
                 case 2:
@@ -71,25 +73,25 @@ void render_menu()
                 case 3:
                 {
                     clear_screen();
-                    print();
+                    print(&n);
                     break;
                 }
                 case 4:
                 {
                     clear_screen();
-                    find_by_index();
+                    find_by_index(&n);
                     break;
                 }
                 case 5:
                 {
                     clear_screen();
-                    find_by_value();
+                    find_by_value(&n);
                     break;
                 }
                 case 6:
                 {
                     clear_screen();
-                    sort();
+                    sort(&n);
                     break;
                 }
                 case 7:
@@ -118,8 +120,9 @@ void render_menu()
 }
 
 // Method that implement push functionallity for insert an element in array.
-void push()
+void push(int *top, int *n)
 {
+    int value_to_insert;
     if(top>=n-1)
     {
         print_danger();
@@ -133,7 +136,7 @@ void push()
         scanf("%d",&value_to_insert);
         print_default();
         top++;
-        arr[top]=value_to_insert;
+        arr[*top]=value_to_insert;
     }
 }
 
@@ -156,8 +159,9 @@ void pop()
 }
 
 // Method that find one element of array by index.
-void find_by_index()
+void find_by_index(int *n)
 {
+    int index_to_find;
     if(top<=-1)
     {
         print_danger();
@@ -189,7 +193,7 @@ void find_by_index()
 }
 
 // Method that find elements of array by value.
-void find_by_value()
+void find_by_value(int *n)
 {
     int elements[10];
     int indexes[10];
@@ -242,7 +246,7 @@ void find_by_value()
 }
 
 // Method for display the array elements in screen.
-void print()
+void print(int *n)
 {
     if(top>=0)
     {
@@ -265,7 +269,7 @@ void print()
 }
 
 // Method that implements bubble sort algorithm.
-void sort()
+void sort(int *n)
 {
     int i, j, hold;
 
@@ -283,12 +287,12 @@ void sort()
     }
     print_success();
     printf("<Array sorted>\n");
-    print();
+    print(n);
     print_default();
 }
 
 // Method that print the header of menu options.
-void print_options()
+void print_options(int *n)
 {
     printf("\n\n\t OPERATIONS USING ARRAY[%d/%d]", top+1, n);
     printf("\n\t--------------------------------");
