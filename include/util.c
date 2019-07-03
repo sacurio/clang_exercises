@@ -2,13 +2,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "util.h"
 
 uint8_t is_number(char *a)
 {
-    unsigned x;
-    for ( x = 0; x < strlen ( a ); x++ )
-        if ( !isdigit ( a[x] ) ) return 0;
+    short i;
+    for ( i = 0; i < strlen(a); i++ )
+    {
+        if (!isdigit (a[i])) return 0;
+    }
+
     return 1;
 }

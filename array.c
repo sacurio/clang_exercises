@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 #include "include/utilui.h"
+#include "include/util.h"
 
 #define SIZE 1000
 
@@ -29,25 +30,28 @@ int main()
 // Method for handle menu options by user selection.
 void render_menu()
 {
-    int option; 
+    int option;
     int *top, *n;
     top=-1;
     int number_valid = 0;
+    int number_option;
     char number_str[10];
+    char aux[3];
     clear_screen();
     do{
         print_info();
         printf("\n================================================");
         printf("\n::Enter size of array> ");
-        scanf("%d", &n);
+        scanf("%s", &aux);
         printf("================================================");
         reset_color();
-        sscanf(number_str, "%s", &n);
-        number_valid = is_number(number_str);
-        printf("%d %d", number_valid, *n);
+
+        number_option = atoi(aux);
+        number_valid = is_number(&aux);
+
         if(number_valid==1)
         {
-            if (n>SIZE)
+            if (number_option>SIZE)
             {
                 printf("<Error>");
             }
