@@ -1,3 +1,8 @@
+/*********************************************************
+*   Autor: Sandy Acurio
+*   Correo: sandy.acurio@gmail.com
+**********************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -8,33 +13,38 @@
 
 #define SIZE 1000
 
-int arr[SIZE], top, i;
+int arr[SIZE];
 
-// Functions prototypes
-void push(int *top, int *n);
-void pop(void);
-void print(int *n);
-void find_by_index(int *n);
-void find_by_value(int *n);
-void print_options(int *n);
-void sort(int *n);
+/*********************************************************
+*   Funcion prototypes
+**********************************************************/
+void push(int *top, int array_size);
+void pop(int *top);
+void print(int top, int array_size);
+void find_by_index(int top, int array_size);
+void find_by_value(int top, int array_size);
+void print_options(int top, int array_size);
+void sort(int array_size);
 void render_menu(void);
 
-// Init function.
 int main()
 {
     render_menu();
     return 0;
 }
 
-// Method for handle menu options by user selection.
+/*********************************************************
+*   Funcion: render_menu()
+*
+*   MAKE: Method for handle menu options by user selection.
+*
+**********************************************************/
 void render_menu()
 {
     int option;
-    int *top, *n;
-    top=-1;
     int number_valid = 0;
-    int number_option;
+    int *top = -1;
+    int *array_size = NULL;
     char number_str[10];
     char aux[3];
     clear_screen();
@@ -46,18 +56,18 @@ void render_menu()
         printf("================================================");
         reset_color();
 
-        number_option = atoi(aux);
+        array_size = atoi(aux);
         number_valid = is_number(&aux);
 
         if(number_valid==1)
         {
-            if (number_option>SIZE)
+            if (array_size>SIZE)
             {
                 printf("<Error>");
             }
             do
             {
-                print_options(n);
+                print_options(top, array_size);
                 printf("\n::Enter the option> ");
                 scanf("%d", &option);
                 switch (option)
@@ -65,37 +75,37 @@ void render_menu()
                 case 1:
                 {
                     clear_screen();
-                    push(&top, &n);
+                    push(&top, array_size);
                     break;
                 }
                 case 2:
                 {
                     clear_screen();
-                    pop();
+                    pop(&top);
                     break;
                 }
                 case 3:
                 {
                     clear_screen();
-                    print(&n);
+                    print(top, array_size);
                     break;
                 }
                 case 4:
                 {
                     clear_screen();
-                    find_by_index(&n);
+                    find_by_index(top, array_size);
                     break;
                 }
                 case 5:
                 {
                     clear_screen();
-                    find_by_value(&n);
+                    find_by_value(top, array_size);
                     break;
                 }
                 case 6:
                 {
                     clear_screen();
-                    sort(&n);
+                    sort(array_size);
                     break;
                 }
                 case 7:
@@ -123,11 +133,18 @@ void render_menu()
     }while(number_valid==0);
 }
 
-// Method that implement push functionallity for insert an element in array.
-void push(int *top, int *n)
+/*********************************************************
+*   Funcion: void push(int *top, int array_size)
+*
+*   IN: Take the last index of array an increment it.
+        Read the size of the array.
+*   MAKE: Method that implement push functionallity for
+*           insert an element in array.
+**********************************************************/
+void push(int *top, int array_size)
 {
     int value_to_insert;
-    if(top>=n-1)
+    if(*top>=array_size-1)
     {
         print_danger();
         printf("\n<Array is over flow>");
@@ -136,18 +153,25 @@ void push(int *top, int *n)
     else
     {
         print_info();
-        printf("\n::Enter a value to be pushed for the position[%d]> ", top+1);
+        printf("\n::Enter a value to be pushed for the position[%d]> ", *top+1);
         scanf("%d",&value_to_insert);
         print_default();
-        top++;
+        *top = *top+1;
         arr[*top]=value_to_insert;
     }
 }
 
-// Method that implement pop functionallity for remove the last element in array.
-void pop()
+/*********************************************************
+*   Funcion: void pop(int *top)
+*
+*   IN: Take the last index of array and decrement it.
+*   MAKE: Method that implement pop functionallity for remove
+*           the last element in array.
+*
+**********************************************************/
+void pop(int *top)
 {
-    if(top<=-1)
+    if(*top<=-1)
     {
         print_warning();
         printf("\n<Array is empty>");
@@ -156,14 +180,21 @@ void pop()
     else
     {
         print_success();
-        printf("\n<The popped elements is %d>",arr[top]);
+        printf("\n<The popped elements is %d>",arr[*top]);
         print_default();
-        top--;
+        *top = *top-1;
     }
 }
 
-// Method that find one element of array by index.
-void find_by_index(int *n)
+/*********************************************************
+*   Funcion: void find_by_index(int top, int array_size)
+*
+*   IN: Take the last index of the array and control if
+        is not greater than size of array
+*   MAKE: Method that find one element of array by index.
+*
+**********************************************************/
+void find_by_index(int top, int array_size)
 {
     int index_to_find;
     if(top<=-1)
@@ -178,7 +209,7 @@ void find_by_index(int *n)
         printf("\n::Enter a index to find> ");
         scanf("%d",&index_to_find);
         print_default();
-        if(index_to_find>-1 && index_to_find < n)
+        if(index_to_find>-1 && index_to_find < array_size)
         {
             print_success();
             (index_to_find<=top) ? printf("\n<The value in the position %d is: %d >\n", index_to_find, arr[index_to_find]) : printf("\n\t<The value in the position %d is: empty >", index_to_find);
@@ -196,8 +227,15 @@ void find_by_index(int *n)
     }
 }
 
-// Method that find elements of array by value.
-void find_by_value(int *n)
+/*********************************************************
+*   Funcion: void find_by_value(int top, int array_size)
+*
+*   IN: Take the last index of the array and control if
+        is not greater than size of array
+*   MAKE: Method that find elements of array by value.
+*
+**********************************************************/
+void find_by_value(int top, int array_size)
 {
     int elements[10];
     int indexes[10];
@@ -216,7 +254,7 @@ void find_by_value(int *n)
         printf("\n::Enter the value to find> ");
         scanf("%d",&value_to_find);
         print_default();
-        for(j=0; j<n; j++)
+        for(j=0; j<array_size; j++)
         {
             if(arr[j]==value_to_find)
             {
@@ -249,15 +287,22 @@ void find_by_value(int *n)
     }
 }
 
-// Method for display the array elements in screen.
-void print(int *n)
+/*********************************************************
+*   Funcion: void print(int top, int array_size)
+*
+*   IN: Take the last index of the array and control if
+        is not greater than size of array
+*   MAKE: Method for display the array elements in screen.
+*
+**********************************************************/
+void print(int top, int array_size)
 {
     if(top>=0)
     {
         print_success();
         printf("\nThe elements in array\n");
         printf("\n---------------------\n");
-        for(i=n-1; i>=0; i--)
+        for(int i=array_size-1; i>=0; i--)
             (top+1 > i) ? printf("\n\tarray[%d]=%d\n",i, arr[i]) : printf("\n\tarray[%d]=%s\n",i, "<empty>");
         print_default();
         pause();
@@ -272,14 +317,21 @@ void print(int *n)
 
 }
 
-// Method that implements bubble sort algorithm.
-void sort(int *n)
+/*********************************************************
+*   Funcion: void sort(int top, int array_size)
+*
+*   IN: Take the last index of the array and control if
+        is not greater than size of array
+*   MAKE: Method that implements bubble sort algorithm.
+*
+**********************************************************/
+void sort(int array_size)
 {
     int i, j, hold;
 
-    for(i = 1; i <= n; i++)
+    for(i = 1; i <= array_size; i++)
     {
-        for(j=0; j<= n-2; j++)
+        for(j=0; j<= array_size-2; j++)
         {
             if(arr[j] > arr[j+1])
             {
@@ -291,14 +343,20 @@ void sort(int *n)
     }
     print_success();
     printf("<Array sorted>\n");
-    print(n);
     print_default();
 }
 
-// Method that print the header of menu options.
-void print_options(int *n)
+/*********************************************************
+*   Funcion: void print_options(int top, int array_size)
+*
+*   IN: Take the last index of the array and control if
+        is not greater than size of array
+*   MAKE: Method that print the header of menu options.
+*
+**********************************************************/
+void print_options(int top, int array_size)
 {
-    printf("\n\n\t OPERATIONS USING ARRAY[%d/%d]", top+1, n);
+    printf("\n\n\t OPERATIONS USING ARRAY[%d/%d]", top+1, array_size);
     printf("\n\t--------------------------------");
     printf("\n\t 1.PUSH\n\t 2.POP\n\t 3.DISPLAY\n\t 4.FIND BY INDEX\n\t 5.FIND BY VALUE\n\t 6.SORT\n\t 7.EXIT \n\t");
 }
