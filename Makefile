@@ -8,7 +8,7 @@ CC=gcc
 CFLAGS = -g -Wall -fno-stack-protector
 
 # the build taget executable
-TARGET=array
+TARGET=darray
 INCLUDES=include/*.c
 
 # build the target executable

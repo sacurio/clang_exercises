@@ -1,3 +1,5 @@
+#include <string.h>
+
 #define CL_DEFAULT      "\x1b[0m"
 #define CL_INFO         "\x1b[36m"
 #define CL_WARNING      "\x1b[33m"
@@ -17,3 +19,6 @@ void print_success(void);
 void clear_screen(void);
 void pause(void);
 void myflush(FILE *in);
+
+//
+int calculate_character_space(int character);

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "utilcons.h"
 #include "utilui.h"
 
 void set_color(char color[])
@@ -51,4 +52,9 @@ void myflush(FILE *in)
     ch = fgetc (in);
   while ( ch != EOF && ch != '\n' );
   clearerr(in);
+}
+
+int calculate_character_space(int character)
+{
+    return character;
 }
