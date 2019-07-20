@@ -57,7 +57,7 @@ void print(darray *array)
         if (i==0){
             printf("%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
         }else if(i==array->size-1){
-            printf("%s%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+            printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
         }else {
             printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
         }
@@ -78,7 +78,7 @@ void print(darray *array)
         if (i==0){
             printf("%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
         }else if(i==array->size-1){
-            printf("%s%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
+            printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
         }else {
             printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
         }
