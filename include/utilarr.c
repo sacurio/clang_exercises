@@ -43,19 +43,54 @@ void print(darray *array)
     int digits_element, digits_difference;
     char * horizontal_characters = string_repeat(spaces, HORIZONTAL_CHAR);
 
-    // for (int i = 0; i < array->size; i++)
-    // {
-    //     digits_element = count_digits(array->elements[i]);
-    //     digits_difference = digits - digits_element;
-    //     printf("%s%s%s\n", TOP_LEFT_CORNER_CHAR, horizontal_characters, TOP_RIGHT_CORNER_CHAR);
-    //     printf("%s%s%d%s\n", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->elements[i], VERTICAL_CHAR);
-    //     printf("%s%s%s\n", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
-    // }
+    //Printing array index
+
+    print_warning();
 
     for (int i = 0; i < array->size; i++)
     {
         if (i==0){
-            printf("%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+            printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+        }else if(i==array->size-1){
+            printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+        }else {
+            printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+        }
+    }
+
+    for (int i = 0; i < array->size; i++)
+    {
+        digits_element = count_digits(i);
+        digits_difference = digits - digits_element;
+        if(i==0){
+            printf("\t");
+        }
+        printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), i);
+        if(i==array->size-1){
+            printf("%s\n", VERTICAL_CHAR);
+        }
+    }
+
+
+    for (int i = 0; i < array->size; i++)
+    {
+        if (i==0){
+            printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+        }else if(i==array->size-1){
+            printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
+        }else {
+            printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+        }
+    }
+
+    //Printing array elements
+
+    print_info();
+
+    for (int i = 0; i < array->size; i++)
+    {
+        if (i==0){
+            printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
         }else if(i==array->size-1){
             printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
         }else {
@@ -67,6 +102,9 @@ void print(darray *array)
     {
         digits_element = count_digits(array->elements[i]);
         digits_difference = digits - digits_element;
+        if(i==0){
+            printf("\t");
+        }
         printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->elements[i]);
         if(i==array->size-1){
             printf("%s\n", VERTICAL_CHAR);
@@ -76,13 +114,20 @@ void print(darray *array)
     for (int i = 0; i < array->size; i++)
     {
         if (i==0){
-            printf("%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+            printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
         }else if(i==array->size-1){
             printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
         }else {
             printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
         }
     }
+
+    print_warning();
+    printf("\tIndexes: %s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR);
+    print_info();
+    printf("\tValues: %s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR);
+
+    reset_color();
 
 }
 
