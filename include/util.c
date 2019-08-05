@@ -7,6 +7,18 @@
 
 #include "util.h"
 
+//Structs functions
+intduo *intduo_initialize(int elementA, int elementB)
+{
+
+    intduo *intduo_var = (intduo*) malloc(sizeof(intduo));
+
+    intduo_var->elementA = elementA;
+    intduo_var->elementB = elementB;
+
+    return intduo_var;
+}
+
 //Number functions
 
 uint8_t is_number(char *a)
@@ -72,4 +84,19 @@ char * string_repeat(int times, const char * character)
 int int_length(int * array)
 {
     return sizeof(array) / sizeof(int);
+}
+
+//Inputs
+int input_number(char * message){
+    int value;
+    printf(message);
+    scanf("%d", &value);
+    return value;
+}
+
+char input_char(char * message){
+    char value;
+    printf(message);
+    scanf("%d", &value);
+    return value;
 }

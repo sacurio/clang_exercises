@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "util.h"
 #include "utilcons.h"
 #include "utilarr.h"
-#include "util.h"
 #include "utilui.h"
 
 darray *array_initialize()
@@ -20,9 +20,29 @@ darray *array_initialize()
         dinamic_array->elements[i] = get_random(i, 10000);
     }
 
-    //fill_array(&dinamic_array->elements);
-
     return dinamic_array;
+}
+
+void array_add(darray *darr, int element)
+{
+    darr->elements = realloc(darr->elements, sizeof(int));
+    darr->elements[darr->size] = element;
+    darr->size++;
+    darr->length++;
+}
+
+void array_pop(darray * darr)
+{
+    for (int i = 0; i < darr->length-1; i++)
+    {
+
+    }
+
+}
+
+void array_free(darray *darr)
+{
+    free(darr->elements);
 }
 
 void *fill_array(int *array, int length)
@@ -36,9 +56,10 @@ void *fill_array(int *array, int length)
 
 void print(darray *array)
 {
-    // int digits = count_digits((int *)&array->size);
-    int maximum = get_maximum(array->elements, array->size);
-    int digits = count_digits(maximum) + PADDING_SPACE;
+    intduo *maximum = get_maximum(array->elements, array->size);
+    intduo *minimum = get_minimum(array->elements, array->size);
+    int digits = count_digits(maximum->elementB) + PADDING_SPACE;
+
     int spaces = calculate_character_space(digits);
     int digits_element, digits_difference;
     char * horizontal_characters = string_repeat(spaces, HORIZONTAL_CHAR);
@@ -47,79 +68,97 @@ void print(darray *array)
 
     print_warning();
 
-    for (int i = 0; i < array->size; i++)
-    {
-        if (i==0){
-            printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
-        }else if(i==array->size-1){
-            printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
-        }else {
-            printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
-        }
-    }
+    if (array->size==1){
 
-    for (int i = 0; i < array->size; i++)
-    {
-        digits_element = count_digits(i);
+        digits_element = count_digits(array->elements[0]);
+        digits_difference = digits - 1;
+
+        printf("\t%s%s%s\n", TOP_LEFT_CORNER_CHAR, horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+        printf("\t%s%s%d%s\n", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->size, VERTICAL_CHAR);
+        printf("\t%s%s%s\n", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
+
+        print_info();
+        digits_element = count_digits(array->elements[0]);
         digits_difference = digits - digits_element;
-        if(i==0){
-            printf("\t");
-        }
-        printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), i);
-        if(i==array->size-1){
-            printf("%s\n", VERTICAL_CHAR);
-        }
-    }
 
+        printf("\t%s%s%s\n", TOP_LEFT_CORNER_CHAR, horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+        printf("\t%s%s%d%s\n", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->elements[0], VERTICAL_CHAR);
+        printf("\t%s%s%s\n", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
 
-    for (int i = 0; i < array->size; i++)
-    {
-        if (i==0){
-            printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
-        }else if(i==array->size-1){
-            printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
-        }else {
-            printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+    }else {
+        for (int i = 0; i < array->size; i++)
+        {
+            if (i==0){
+                printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+            }else if(i==array->size-1){
+                printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+            }else {
+                printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+            }
         }
-    }
-
-    //Printing array elements
-
-    print_info();
-
-    for (int i = 0; i < array->size; i++)
-    {
-        if (i==0){
-            printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
-        }else if(i==array->size-1){
-            printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
-        }else {
-            printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+        for (int i = 0; i < array->size; i++)
+        {
+            digits_element = count_digits(i);
+            digits_difference = digits - digits_element;
+            if(i==0){
+                printf("\t");
+            }
+            printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), i);
+            if(i==array->size-1){
+                printf("%s\n", VERTICAL_CHAR);
+            }
         }
-    }
 
-    for (int i = 0; i < array->size; i++)
-    {
-        digits_element = count_digits(array->elements[i]);
-        digits_difference = digits - digits_element;
-        if(i==0){
-            printf("\t");
+        for (int i = 0; i < array->size; i++)
+        {
+            if (i==0){
+                printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+            }else if(i==array->size-1){
+                printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
+            }else {
+                printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+            }
         }
-        printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->elements[i]);
-        if(i==array->size-1){
-            printf("%s\n", VERTICAL_CHAR);
-        }
-    }
 
-    for (int i = 0; i < array->size; i++)
-    {
-        if (i==0){
-            printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
-        }else if(i==array->size-1){
-            printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
-        }else {
-            printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+        //Printing array elements
+
+        print_info();
+
+        for (int i = 0; i < array->size; i++)
+        {
+            if (i==0){
+                printf("\t%s%s%s", TOP_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+            }else if(i==array->size-1){
+                printf("%s%s\n", horizontal_characters, TOP_RIGHT_CORNER_CHAR);
+            }else {
+                printf("%s%s", horizontal_characters, HORIZONTAL_TOP_CENTER_CHAR);
+            }
         }
+
+        for (int i = 0; i < array->size; i++)
+        {
+            digits_element = count_digits(array->elements[i]);
+            digits_difference = digits - digits_element;
+            if(i==0){
+                printf("\t");
+            }
+            printf("%s%s%d", VERTICAL_CHAR, string_repeat(digits_difference, SPACE_CHAR), array->elements[i]);
+            if(i==array->size-1){
+                printf("%s\n", VERTICAL_CHAR);
+            }
+        }
+
+        for (int i = 0; i < array->size; i++)
+        {
+            if (i==0){
+                printf("\t%s%s%s", BOTTOM_LEFT_CORNER_CHAR, horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+            }else if(i==array->size-1){
+                printf("%s%s\n", horizontal_characters, BOTTOM_RIGHT_CORNER_CHAR);
+            }else {
+                printf("%s%s", horizontal_characters, HORIZONTAL_BOTTOM_CENTER_CHAR);
+            }
+        }
+
     }
 
     print_warning();
@@ -127,16 +166,53 @@ void print(darray *array)
     print_info();
     printf("\tValues: %s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR);
 
+    printf("\n\n\t%sSize: %s%d\n", CL_DEFAULT, CL_HIGHLIGHT, array->size);
+    printf("\t%sLenght: %s%d\n", CL_DEFAULT, CL_HIGHLIGHT, array->length);
+    printf("\t%sMinimum: %s%d in [%d]\n", CL_DEFAULT, CL_HIGHLIGHT, minimum->elementB, minimum->elementA);
+    printf("\t%sMaximum: %s%d in [%d]\n", CL_DEFAULT, CL_HIGHLIGHT, maximum->elementB, maximum->elementA);
+
     reset_color();
 
 }
 
-int get_maximum(int * array, int length)
+intduo *get_maximum(int * array, int length)
 {
-    int maximum = -1;
+    intduo *intduo_var;
+    int index;
+    int maximum;
     for (int i = 0; i < length; i++)
     {
-        maximum = array[i]>maximum? array[i]:maximum;
+        if(i==0){
+            maximum=array[i];
+            index = i;
+        }else{
+            if(array[i]>maximum){
+                maximum = array[i];
+                index = i;
+            }
+        }
     }
-    return maximum;
+    intduo_var = intduo_initialize(index, maximum);
+    return intduo_var;
+}
+
+intduo *get_minimum(int * array, int length)
+{
+    intduo *intduo_var;
+    int index;
+    int minimum;
+    for (int i = 0; i < length; i++)
+    {
+        if(i==0){
+            minimum=array[i];
+            index = i;
+        }else{
+            if(array[i]<minimum){
+                minimum = array[i];
+                index = i;
+            }
+        }
+    }
+    intduo_var = intduo_initialize(index, minimum);
+    return intduo_var;
 }

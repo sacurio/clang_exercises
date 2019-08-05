@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "util.h"
 #include "utilarr.h"
 
 void *mem_malloc(size_t size)

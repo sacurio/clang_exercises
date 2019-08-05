@@ -32,6 +32,10 @@ void print_success(void)
 {
     set_color(CL_SUCCESS);
 }
+void print_highlight(void)
+{
+    set_color(CL_HIGHLIGHT);
+}
 void clear_screen(void)
 {
     system("@cls||clear");

@@ -58,7 +58,9 @@ void render_menu()
         case 2:
         {
             clear_screen();
-            // pop(&top);
+            array_add(array, input_number("Ingresar el valor:"));
+            clear_screen();
+            print(array);
             break;
         }
         case 3:
@@ -87,6 +89,12 @@ void render_menu()
         case 7:
         {
             clear_screen();
+            break;
+        }
+        case 8:
+        {
+            array_free(array);
+            clear_screen();
             print_danger();
             printf("\n<EXIT>\n\n");
             print_default();
@@ -99,7 +107,7 @@ void render_menu()
             print_default();
             break;
         }
-    } while (option!=7);
+    } while (option!=8);
 }
 
 void print_options()

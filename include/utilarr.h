@@ -6,10 +6,11 @@ typedef struct darray{
 
 darray *array_initialize();
 // void array_redim();
-// void array_free();
-// void array_add(int element);
-// void array_remove(int index);
+void array_add(darray *darr, int element);
+void array_free(darray *darr);
+void array_pop(darray * darr);
 
 void *fill_array(int *array, int length);
 void print(darray *array);
-int get_maximum(int * array, int length);
+intduo *get_maximum(int * array, int length);
+intduo *get_minimum(int * array, int length);
