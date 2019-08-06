@@ -13,11 +13,13 @@ darray *array_initialize()
 
     dinamic_array->size = INITIAL_SIZE;
     dinamic_array->length = INITIAL_SIZE;
-    dinamic_array->elements = (int*) malloc(INITIAL_SIZE*sizeof(int));
+    //dinamic_array->elements = malloc(INITIAL_SIZE*sizeof(int));
+    dinamic_array->elements = malloc(1);
 
     for (int i = 0; i < dinamic_array->size; i++)
     {
-        dinamic_array->elements[i] = get_random(i, 10000);
+        //dinamic_array->elements[i] = get_random(i, 10000);
+        dinamic_array->elements[i] = 0;
     }
 
     return dinamic_array;
@@ -25,7 +27,7 @@ darray *array_initialize()
 
 void array_add(darray *darr, int element)
 {
-    darr->elements = realloc(darr->elements, sizeof(int));
+    darr->elements = realloc(darr->elements, darr->size+1);
     darr->elements[darr->size] = element;
     darr->size++;
     darr->length++;
@@ -196,7 +198,7 @@ intduo *get_maximum(int * array, int length)
     return intduo_var;
 }
 
-intduo *get_minimum(int * array, int length)
+intduo* get_minimum(int * array, int length)
 {
     intduo *intduo_var;
     int index;

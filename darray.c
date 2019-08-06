@@ -58,6 +58,7 @@ void render_menu()
         case 2:
         {
             clear_screen();
+            printf("\nSIZE: %d\n", array->size);
             array_add(array, input_number("Ingresar el valor:"));
             clear_screen();
             print(array);
